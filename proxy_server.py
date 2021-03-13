@@ -78,7 +78,6 @@ class KuvoInterceptor:
             req_body = urllib.parse.parse_qs(content.decode("utf-8"))
 
             if path == "/liveplaylist/1.00/challenge-auth":
-                print("challenge-auth")
                 flow.response = http.HTTPResponse.make(
                     200,  # (optional) status code
                     b"MessageType=2\nStatusCode=0",  # (optional) content
@@ -88,7 +87,6 @@ class KuvoInterceptor:
                 return
             
             if path == "/liveplaylist/1.00/notify-event-status":
-                print("notify-event-status")
                 flow.response = http.HTTPResponse.make(
                     200,  # (optional) status code
                     b"MessageType=6\nStatusCode=0\nEventID=%d" % self.num,  # (optional) content
@@ -99,7 +97,6 @@ class KuvoInterceptor:
                 return
 
             if path == "/liveplaylist/1.00/regist-play":
-                print("regist-play")
                 start_player = int(float(self.getField(req_body, "OA_Received_CDJ") or "0"))
                 stop_player = int(float(self.getField(req_body, "OFF_Received_CDJ") or "0"))
                 kuvo_req = {

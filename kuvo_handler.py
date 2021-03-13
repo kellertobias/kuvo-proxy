@@ -35,7 +35,6 @@ def kuvo(title, artist, genre, bpm, key, time, playerNo, running):
     else:
         print("[KUVO] Wrong Player Number")
 
-    pprint(players)
     for player in players:
         if player.get("title", False):
             if player.get("running", False):
@@ -49,7 +48,7 @@ def kuvo(title, artist, genre, bpm, key, time, playerNo, running):
     textlines = []
     for track in tracklist:
         textlines.append("%s - %s" % (track.get("title", ""), track.get("artist", "")))
-        print("%s - %s" % (track.get("title", ""), track.get("artist", "")))
+        print(" - %s - %s" % (track.get("title", ""), track.get("artist", "")))
     if stuffChanged:
         requests.post("http://127.0.0.1:3020/text", json = {"lines": textlines})
 
