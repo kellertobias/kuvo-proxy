@@ -2,6 +2,7 @@ import { Decks } from '../backend/decks';
 import { settings } from '../server/settings';
 import fs from 'fs'
 import os from 'os'
+import axios from 'axios'
 
 /**
  * Resolves paths that start with a tilde to the user's home directory.
@@ -31,7 +32,15 @@ Decks.registerCallback((decks) => {
     if(settings.callbackPath.startsWith('http')) {
         const protocol = settings.callbackPath.startsWith('https') ? 'https' : 'http'
         console.log("Calling external Rest API", settings.callbackPath, protocol)
+        const tracks = decks.playlist.slice(0, 5).map(track => {
+          return `${track.title} (${track.artist})`
+        })
 
+        axios.post(settings.callbackPath, {lines: tracks}).then(() => {
+          console.log("SENT")
+        }).catch((err) => {
+          console.log("COULD NOT SEND", err.toString())
+        })
         return
     }
 
