@@ -1,33 +1,25 @@
 import http from 'http'
-import net from 'net'
-import URL from 'url'
+import https from 'https'
 
-import { HOST, WEB_PORT, PROXY_PORT } from './config'
+import { HOST, WEB_PORT } from '../config'
+import { createOrLoadKeys } from './encryption'
+import { requestHandler } from './webhandler'
 
+const setupWebserver = () => {
+    createOrLoadKeys().then((certificates) => {
+    const encrypted = process.env.UNSAFE !== '1'
+    const webserver = !encrypted ? http.createServer(requestHandler) : https.createServer({
+            key: certificates.key,
+            cert: certificates.cert,
 
-
-const PROXY_CONFIG = `
-function FindProxyForURL(url, host) {
-    PROXY = "PROXY 127.0.0.1:${PROXY_PORT}"
-
-    if (shExpMatch(host,"kuvo.com")) {
-        return PROXY;
-    }
-    if (shExpMatch(host,"*.kuvo.com")) {
-         return PROXY;
-    }
-    // Everything else directly!
-    return "DIRECT";
-}
-`
-
-const requestHandler: http.RequestListener = (req, res) => {
-    res.writeHead(200);
-    res.end(PROXY_CONFIG);
+        }, requestHandler)
+    
+        webserver.listen(WEB_PORT, () => {
+            console.log(`WebServer is running on ${encrypted ? 'https' : 'http'}://${HOST}:${WEB_PORT}`);
+        })
+    
+        return Promise.resolve()
+    })
 }
 
-const webserver = http.createServer(requestHandler)
-
-webserver.listen(WEB_PORT, HOST, () => {
-    console.log(`WebServer is running on http://${HOST}:${WEB_PORT}`);
-})
+export default setupWebserver
