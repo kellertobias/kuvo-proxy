@@ -1,35 +1,34 @@
 import fs from 'fs'
 import path from 'path'
+import rimraf from 'rimraf'
+
 import { CertificateStore } from '../types/certificate';
 
+import { certFolder, generateKeys, certificateNames } from './certificates';
 
-// openssl genrsa -aes256 -out ca-key.pem 2048
-// openssl req -x509 -new -nodes -extensions v3_ca -key ca-key.pem -days 1024 -out ca-root.pem -sha512
-// openssl genrsa -out zertifikat-key.pem 4096
-// openssl req -new -key zertifikat-key.pem -out zertifikat.csr -sha512 -config req.conf
-// openssl x509 -req -in zertifikat.csr -CA ca-root.pem -CAkey ca-key.pem -CAcreateserial -out zertifikat-pub.pem -days 365 -sha512 -extensions v3_req -extfile req.conf
-
-
-export const loadKeys = () => {
+export const loadKeys = (): CertificateStore => {
     const data = {
-        key: fs.readFileSync(path.join(__dirname, '../../static/zertifikat-key.pem'), 'utf8'),
-        cert: fs.readFileSync(path.join(__dirname, '../../static/zertifikat-pub.pem'), 'utf8'),
+        key: fs.readFileSync(path.join(certFolder, certificateNames.key), 'utf8'),
+        cert: fs.readFileSync(path.join(certFolder, certificateNames.cert), 'utf8'),
+        ca: fs.readFileSync(path.join(certFolder, certificateNames.ca), 'utf8'),
     }
-    return data
 
+    console.log("[SSL] Certificates Loaded")
+    return data
 }
 
 
-export const createOrLoadKeys = (): Promise<CertificateStore> => {
-    // if(process.env.RENEW && fs.existsSync(certificateDataPath)) {
-    //     console.log("SSL Cleanup")
-    //     fs.unlinkSync(certificateDataPath)
-    // }
-    // if(fs.existsSync(certificateDataPath)) {
-        console.log("SSL Setup Load")
-        return Promise.resolve(loadKeys())
-    // } else {
-    //     console.log("SSL Setup Generate")
-    //     return createKeys()
-    // }
+export const createOrLoadKeys = async (): Promise<CertificateStore> => {
+    console.log("[SSL] SSL Setup Initiated")
+    if(process.env.RENEW && fs.existsSync(certFolder)) {
+        console.log("[SSL] Cleanup requested")
+        rimraf.sync(certFolder)
+    }
+    if(!fs.existsSync(certFolder)) {
+        console.log("[SSL] Creation Initiated")
+        fs.mkdirSync(certFolder)
+        await generateKeys()
+    }
+    
+    return Promise.resolve(loadKeys())
 }

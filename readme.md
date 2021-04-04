@@ -57,6 +57,7 @@ this application supports multiple flags that can be set via environment variabl
 - SPY=1 disables internal functionality and just displays requests and respones to original KUVO
 - LOG=1 enables request logging
 - UNSAFE=1 disables https and falls back to http. this will not work with Rekordbox, but might help debugging ssl related stuff
+- RENEW=1 recreates all certificates
 
 # Roadmap:
 

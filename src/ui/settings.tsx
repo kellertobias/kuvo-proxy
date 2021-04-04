@@ -13,13 +13,10 @@ const downloadCertificate: React.MouseEventHandler<HTMLButtonElement> = (e) => {
 	e.stopPropagation();
 	const target = e.currentTarget;
 	console.log(target.getAttribute('data-name'));
-	ipcRenderer
-		.invoke('certificate/get')
-		.then((props: { certificates: CertificateStore }) => {
-			const { certificates: cert } = props;
-			console.log(cert);
-			download(cert.key || '', 'application/x-pem-file', 'kuvo-ca.pem');
-		});
+	ipcRenderer.invoke('certificate/get').then((cert) => {
+		console.log(cert);
+		download(cert || '', 'application/x-pem-file', 'kuvo-ca.pem');
+	});
 };
 
 const SettingsView: React.FC<{}> = () => {

@@ -76,6 +76,7 @@
     "@types/pem": "^1.9.5",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
+    "@types/rimraf": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^4.20.0",
     "@typescript-eslint/parser": "^4.20.0",
     "css-loader": "^4.3.0",
@@ -96,8 +97,10 @@
     "express": "^4.17.1",
     "http-proxy": "^1.18.1",
     "json-colorizer": "^2.2.2",
+    "nanoid": "^3.1.22",
     "pem": "^1.14.4",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "rimraf": "^3.0.2"
   }
 }
