@@ -31,7 +31,6 @@ Decks.registerCallback((decks) => {
 
     if(settings.callbackPath.startsWith('http')) {
         const protocol = settings.callbackPath.startsWith('https') ? 'https' : 'http'
-        console.log("Calling external Rest API", settings.callbackPath, protocol)
         const tracks = decks.playlist.slice(0, 5).map(track => {
           return {
             title: track.time,
@@ -54,7 +53,6 @@ Decks.registerCallback((decks) => {
 
     if(settings.callbackPath.startsWith('/') || settings.callbackPath.startsWith('~/')) {
         const filePath = resolveTilde(settings.callbackPath)
-        console.log("Writing file", filePath)
         const data = decks.playlist.map(track => {
             return `${track.title} (${track.artist})`
         }).join('\n')

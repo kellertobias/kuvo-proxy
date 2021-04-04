@@ -55,7 +55,7 @@ export class Player {
         if(trackChanged) {
             this.loadedTrack = nextTrack
         }
-        console.log(`[${this.num}] LOAD`, trackChanged ? 'different track' : 'same track', this.loadedTrack)
+        console.log(`[${this.num}] LOAD`, trackChanged ? 'new track' : 'same track', this.loadedTrack)
 
         return trackChanged
     }

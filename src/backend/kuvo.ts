@@ -108,7 +108,7 @@ export class Kuvo {
                 Key,
                 Time,
             } = status
-            console.log(status)
+
             session.decks.setPlaying(
                 startingPlayer,
                 status.LoadID,
