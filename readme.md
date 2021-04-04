@@ -3,6 +3,9 @@
 This application simulates the KUVO API that RekordboxDJ uses to send realtime track data.
 
 
+![alt text](/docs/app.png "Application Main Window")
+
+
 # Setup/Installation
 In order to use this application, you need to do the following:
 - Clone the Repo
@@ -25,6 +28,9 @@ Title Track 2 (Artist Track 2)
 Title Track 3 (Artist Track 3)
 ...
 ```
+
+![alt text](/docs/settings.png "Application Main Window")
+
 
 # Integrating with your tools
 
