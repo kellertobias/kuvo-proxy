@@ -33,10 +33,18 @@ Decks.registerCallback((decks) => {
         const protocol = settings.callbackPath.startsWith('https') ? 'https' : 'http'
         console.log("Calling external Rest API", settings.callbackPath, protocol)
         const tracks = decks.playlist.slice(0, 5).map(track => {
-          return `${track.title} (${track.artist})`
+          return {
+            title: track.time,
+            time: track.time,
+            artist: track.artist,
+            key: track.key.toString(),
+            bpm: track.BPM,
+            genre: track.genre,
+            album: track.album
+          }
         })
 
-        axios.post(settings.callbackPath, {lines: tracks}).then(() => {
+        axios.post(settings.callbackPath, {tracks}).then(() => {
           console.log("SENT")
         }).catch((err) => {
           console.log("COULD NOT SEND", err.toString())
