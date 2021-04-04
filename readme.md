@@ -51,13 +51,18 @@ The format is:
 
 This project is meant to be used by people who know a little bit of prgramming. This project is developed by modern standards, however it was an application that was needed to be done within a short time and thus some design decisions are not that good and here and there is some code-smell. Feel free to create Merge Requests for improving upon this tool.
 
+## Possible Instabilities:
+
+- Certificate Generation might be instable as it isn't fully automated yet
+- Creation of KUVO-Account might not be possible while the entry in `/etc/hosts` is set
+
 # Developing
 
 this application supports multiple flags that can be set via environment variables:
 - SPY=1 disables internal functionality and just displays requests and respones to original KUVO
 - LOG=1 enables request logging
 - UNSAFE=1 disables https and falls back to http. this will not work with Rekordbox, but might help debugging ssl related stuff
-- RENEW=1 recreates all certificates
+- RENEW=1 recreates all certificates (cannot be undone, you need to install the new root certificate)
 
 # Roadmap:
 
@@ -66,7 +71,7 @@ this application supports multiple flags that can be set via environment variabl
 - [X] Create UI for showing currently running tracks and playlist (for making sure that it actually works)
 - [X] Send Tracklist to REST-API
 - [X] Store Tracklist in a file
-- [ ] Automatically generate certificats on startup
+- [X] Automatically generate certificats on startup
 - [ ] Web-Page for embedding in OBS or showing on a tablet for your guests
 - [ ] ~~Showing Cover-Art~~ sadly not possible
 - [ ] Check if "virgin" rekordbox can setup KUVO account over this script (for not needing a kuvo account in the first place)
