@@ -72,7 +72,8 @@ export class Decks {
 
     public setStop(deck: number, loadIndex: number, time: number): void {
         const player = this.player(deck)
-        player.stop()
-        this.callCallbacks()
+        player.stop(() => {
+            this.callCallbacks()
+        })
     }
 }

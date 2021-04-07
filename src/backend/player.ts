@@ -17,6 +17,9 @@ export class Player {
     private loadIndexInternal: number = 0
     private loadedTrack : Track | undefined
 
+    private stopCallback ?: (() => void) = () => {}
+    private stopTimeout ?: NodeJS.Timeout
+
     constructor(num: number) {
         if(num >= 1 || num <= 4) {
             this.num = num
@@ -54,19 +57,42 @@ export class Player {
         const trackChanged = this.isDifferentTrack(this.loadedTrack, nextTrack)
         if(trackChanged) {
             this.loadedTrack = nextTrack
+            this.runStopCallback()
         }
         console.log(`[${this.num}] LOAD`, trackChanged ? 'new track' : 'same track', this.loadedTrack)
 
         return trackChanged
     }
 
+    private runStopCallback() {
+        if(this.stopCallback) {
+            this.stopCallback()
+        }
+        this.clearStopCallback()
+    }
+
+    private clearStopCallback() {
+        if(this.stopCallback) {
+            this.stopCallback()
+            this.stopCallback = undefined
+        }
+        if(this.stopTimeout !== undefined) {
+            clearTimeout(this.stopTimeout)
+        }
+    }
+
     start() {
         this.playing = true
+        this.clearStopCallback()
         console.log(`[${this.num}] PLAY >${this.track.title}<`)
     }
 
-    stop() {
+    stop(cb?: () => void) {
         this.playing = false
+        this.stopCallback = cb
+        this.stopTimeout = setTimeout(() => {
+            this.runStopCallback()
+        })
         console.log(`[${this.num}] STOP >${this.track?.title}<`)
     }
 
