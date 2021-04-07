@@ -39,6 +39,17 @@ button {
   border-radius: 5px;
 }
 
+select {
+  background: #222;
+  border: 2px solid #555;
+  padding: 0 15px;
+  outline: none;
+  height: 40px;
+  line-height: 40px;
+  color: #AAA;
+  border-radius: 5px;
+}
+
 input {
   background: #222;
   box-shadow: inset 2px 1px 5px 0 rgba(5,20,0,1);

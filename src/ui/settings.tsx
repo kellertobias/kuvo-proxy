@@ -21,12 +21,23 @@ const downloadCertificate: React.MouseEventHandler<HTMLButtonElement> = (e) => {
 
 const SettingsView: React.FC<{}> = () => {
 	const [callbackPath, setCallbackPath] = useState<string>('');
+	const [stopDelay, setStopDelay] = useState<number>(5);
+	const [revertTracks, setRevertTracks] = useState<boolean>(true);
+
 	useEffect(() => {
 		ipcRenderer
 			.invoke('settings/get')
-			.then((props: { callbackPath: string }) => {
-				setCallbackPath(props.callbackPath);
-			});
+			.then(
+				(props: {
+					callbackPath: string;
+					revertToPreviousAfterStop: boolean;
+					stopDelay: number;
+				}) => {
+					setCallbackPath(props.callbackPath);
+					setStopDelay(props.stopDelay);
+					setRevertTracks(props.revertToPreviousAfterStop);
+				},
+			);
 	}, []);
 
 	const changeCallbackPath: React.ChangeEventHandler<HTMLInputElement> = (
@@ -36,10 +47,50 @@ const SettingsView: React.FC<{}> = () => {
 		setCallbackPath(value);
 		ipcRenderer.invoke('settings/set', { callbackPath: value });
 	};
+
+	const changeStopDelay: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+		const value = Number(e.currentTarget.value);
+		setStopDelay(value);
+		ipcRenderer.invoke('settings/set', { stopDelay: value });
+	};
+
+	const changeRevertTracks: React.ChangeEventHandler<HTMLSelectElement> = (
+		e,
+	) => {
+		const value = e.currentTarget.value == 'true' ? true : false;
+		setRevertTracks(value);
+		ipcRenderer.invoke('settings/set', { revertToPreviousAfterStop: value });
+	};
+
 	return (
 		<div className="view view-settings">
 			<div className="view-title">
 				<h2>Settings</h2>
+			</div>
+			<div className="settings-entry">
+				<h3>Behaviour</h3>
+				<p>
+					<b>Stop Holdback Time</b> is the time between Rekordbox sending that
+					the track no longer is playing and us actually handling this event.
+					Higher times means that you can have longer quiet parts in the song
+					and longer intervals between Hot Cues Samples without triggering Stop.
+				</p>
+				<p>Time in Seconds. Set to zero to disable.</p>
+				<input
+					value={stopDelay}
+					onChange={changeStopDelay}
+					placeholder="Stop Holdback Time"
+				/>
+
+				<p>
+					<b>Revert to previous track after stop</b> enabled, means that after
+					stopping a track, we search for the next track in the playlist that is
+					still playling and will put that again on the top of the playlist.
+				</p>
+				<select value={String(revertTracks)} onChange={changeRevertTracks}>
+					<option value={'true'}>Revert Tracks (On)</option>
+					<option value={'false'}>Don't Revert Tracks (Off)</option>
+				</select>
 			</div>
 			<div className="settings-entry">
 				<h3>Certificate Authority</h3>
@@ -47,7 +98,9 @@ const SettingsView: React.FC<{}> = () => {
 					Download this file and install it. To learn how to do this, search
 					google (e.g. install certificate Authority on Mac OS)
 				</p>
-				<button onClick={downloadCertificate}>Download Certificate file</button>
+				<button onClick={downloadCertificate}>
+					Download Root Certificate file
+				</button>
 			</div>
 			<div className="settings-entry">
 				<h3>Setup DNS Resolving</h3>
