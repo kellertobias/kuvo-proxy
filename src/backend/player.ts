@@ -1,4 +1,5 @@
 import { Key } from './key';
+import { settings } from '../server/settings'
 
 export interface Track {
     title: string;
@@ -56,24 +57,25 @@ export class Player {
         }
         const trackChanged = this.isDifferentTrack(this.loadedTrack, nextTrack)
         if(trackChanged) {
+            console.log(`[${this.num}] LOAD`, trackChanged ? 'new track' : 'same track', this.loadedTrack)
+
             this.loadedTrack = nextTrack
             this.runStopCallback()
         }
-        console.log(`[${this.num}] LOAD`, trackChanged ? 'new track' : 'same track', this.loadedTrack)
 
         return trackChanged
     }
 
     private runStopCallback() {
-        if(this.stopCallback) {
+        if(this.stopCallback !== undefined) {
+            this.playing = false
             this.stopCallback()
         }
         this.clearStopCallback()
     }
 
     private clearStopCallback() {
-        if(this.stopCallback) {
-            this.stopCallback()
+        if(this.stopCallback !== undefined) {
             this.stopCallback = undefined
         }
         if(this.stopTimeout !== undefined) {
@@ -88,12 +90,13 @@ export class Player {
     }
 
     stop(cb?: () => void) {
-        this.playing = false
+        this.clearStopCallback()
         this.stopCallback = cb
         this.stopTimeout = setTimeout(() => {
             this.runStopCallback()
-        })
-        console.log(`[${this.num}] STOP >${this.track?.title}<`)
+        }, settings.stopDelay * 1000)
+
+        console.log(`[${this.num}] STOP >${this.track?.title}<`, this.stopTimeout)
     }
 
     get isPlaying() {

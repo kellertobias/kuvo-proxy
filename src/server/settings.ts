@@ -7,10 +7,16 @@ const settingsFilePath = path.join(dataPath, 'config.json');
 
 
 export interface ApplicationSettings extends Record<string, unknown> {
-    callbackPath ?: string
+    callbackPath ?: string,
+    stopDelay: number,
+    revertToPreviousAfterStop: boolean
 }
 
-export const settings : ApplicationSettings = {}
+export const settings : ApplicationSettings = {
+    stopDelay: 2,
+    revertToPreviousAfterStop: true
+}
+
 export const setSettings = (parts : Partial<ApplicationSettings>) : void => {
     for (const key in parts) {
         const element = parts[key];

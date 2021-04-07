@@ -1,3 +1,4 @@
+import { settings } from '../server/settings'
 import { Player, Track } from './player'
 import { Queue } from './queue'
 
@@ -61,6 +62,7 @@ export class Decks {
 
         const track = player.track
         const playerWasStopped = !player.isPlaying
+
         player.start()
 
         if((trackChanged || playerWasStopped) && this._playlist.first != track) {
@@ -73,6 +75,24 @@ export class Decks {
     public setStop(deck: number, loadIndex: number, time: number): void {
         const player = this.player(deck)
         player.stop(() => {
+            if(settings.revertToPreviousAfterStop && !player.isPlaying && player.track == this._playlist.first) {
+                // The last track that started just got stopped.
+                // We'll search for the next track that is still running.
+
+                for (let i = 0; i < this._playlist.array.length; i++) {
+                    const track = this._playlist.array[i];
+                    const p = this.decks.find((p) => {
+                        return p.track == track
+                    })
+
+                    if(p?.isPlaying) {
+                        console.log(`Reverting to Running Player ${p?.num} from Track ${track.title}`)
+                        this._playlist.add(track)
+                        break;
+                    }                    
+                }
+            }
+            
             this.callCallbacks()
         })
     }
