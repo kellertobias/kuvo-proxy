@@ -72,7 +72,7 @@ this application supports multiple flags that can be set via environment variabl
 - [X] Send Tracklist to REST-API
 - [X] Store Tracklist in a file
 - [X] Automatically generate certificats on startup
+- [X] Delay Stop action (for avoiding setting tracks to stop if it was quiet for too long)
+- [X] Revert to previous still running track on track stop of last running track
 - [ ] Web-Page for embedding in OBS or showing on a tablet for your guests
-- [ ] ~~Showing Cover-Art~~ sadly not possible
 - [ ] Check if "virgin" rekordbox can setup KUVO account over this script (for not needing a kuvo account in the first place)
-- [ ] Figure out how to define the REST API request body from the settings
