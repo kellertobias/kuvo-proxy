@@ -18,6 +18,8 @@ app.use(
     })
 )
 
+app.use(express.static('client'));
+
 const kuvoHost = 'kuvo.com'
 let kuvoOriginal : string | false = false
 export const proxyRequests = process.env.SPY

@@ -1,0 +1,56 @@
+html,
+body,
+* {
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#content {
+    position: absolute;
+}
+
+.current-track {
+    margin-bottom: 10px;
+}
+
+.current-track .header, .prev-tracks .header, .current-track .track, .prev-tracks .track {
+    padding: 2px 3px;
+    margin-bottom: 2px;
+}
+
+.track {
+    vertical-align: baseline;
+}
+
+.track div {
+    display: inline-block;
+    vertical-align: baseline;
+}
+
+.current-track .track .artist, .prev-tracks .track .artist {
+    max-width: 250px;
+    margin-left: 5px;
+}
+
+.current-track .track .title, .prev-tracks .track .title {
+    max-width: 350px;
+}
+
+.prev-tracks .track {
+    display: none;
+}
+
+.prev-tracks .track:nth-child(1),
+.prev-tracks .track:nth-child(2) {
+    display: block;
+}
+
+.current-track .track .title, .prev-tracks .track .title,
+.current-track .track .artist, .prev-tracks .track .artist {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
