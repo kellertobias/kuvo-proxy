@@ -18,6 +18,52 @@ In order to use this application, you need to do the following:
 
 # Using with OBS
 
+## Using the Built-In overlay
+
+The easiest way is to use the built-in web-overlay.
+
+![alt text](/docs/overlay.png "Overlay Example")
+
+Add a web source to your OBS scene and add the path `https://localhost/overlay`. You can add several parameters to control how the overlay looks as well as add custom CSS.
+
+All colors are hex (without the pound sign)
+
+The following parameters exist:
+
+- headerback: background color of headers
+- headercolor: text color of headers
+- headerweight: font weight of the headers
+- currentback: background color of current playing track
+- currentcolor: text color of current playing track
+- prevback: background color of current playing track
+- prevcolor: text color of current playing track
+- weight: font weight of the tracks
+- current: Header Text for "Currently Playing"
+- prev: "Header Text for "Played Before"
+
+if you want to write custom css, here's the structure:
+
+- `#content`
+  - `.current-track`
+    - `.header`
+    - `.tracklist`
+      - `.track`
+        - `.title`
+        - `.artist`
+      - OR: `.track`
+        - `.paused`
+  - `.prev-tracks`
+    - `.header`
+    - `.tracklist`
+      - `.track`
+        - `.title`
+        - `.artist`
+      - ...
+
+If you cannot connect make sure that you have installed the root certificate on the computer running OBS and running the application on the same computer than OBS.
+
+## Using Playlist Textfiles
+
 go to settings and either set an absolute path (`/absolute/path/to/playlist.txt`) or a path relative to your user dir (`~/playlist.txt` this should also work on windows)
 
 it then generates a text file with one entry per track:
