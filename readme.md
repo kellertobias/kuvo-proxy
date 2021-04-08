@@ -74,5 +74,5 @@ this application supports multiple flags that can be set via environment variabl
 - [X] Automatically generate certificats on startup
 - [X] Delay Stop action (for avoiding setting tracks to stop if it was quiet for too long)
 - [X] Revert to previous still running track on track stop of last running track
-- [ ] Web-Page for embedding in OBS or showing on a tablet for your guests
+- [X] Web-Page for embedding in OBS or showing on a tablet for your guests
 - [ ] Check if "virgin" rekordbox can setup KUVO account over this script (for not needing a kuvo account in the first place)
