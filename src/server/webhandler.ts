@@ -4,6 +4,9 @@ import dns from 'dns'
 import express, {Request} from 'express'
 import { Response, ParamsDictionary, Query} from 'express-serve-static-core'
 import util from 'util'
+import fs from 'fs'
+import electron from 'electron'
+import path from 'path'
 
 export type HttpHandler = (req: http.IncomingMessage, res: http.ServerResponse) => boolean
 
@@ -18,7 +21,15 @@ app.use(
     })
 )
 
-app.use(express.static('client'));
+const basePath = electron.app.getAppPath()
+const staticClientPath = `${basePath}/.webpack/main/static/client`
+
+console.log({basePath, staticClientPath})
+
+
+console.log(fs.readdirSync(staticClientPath))
+
+app.use(express.static(staticClientPath));
 
 const kuvoHost = 'kuvo.com'
 let kuvoOriginal : string | false = false

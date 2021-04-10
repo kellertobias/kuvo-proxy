@@ -16,7 +16,7 @@
     "name": "Tobias S. Keller",
     "email": "tobias.s.keller@gmail.com"
   },
-  "license": "GNU AGPLv3",
+  "license": "GNU GPLv3",
   "config": {
     "forge": {
       "packagerConfig": {},
@@ -94,6 +94,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "clsx": "^1.1.1",
+    "copy-webpack-plugin": "^6.2.1",
     "electron-squirrel-startup": "^1.0.0",
     "express": "^4.17.1",
     "http-proxy": "^1.18.1",
