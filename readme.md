@@ -121,4 +121,5 @@ this application supports multiple flags that can be set via environment variabl
 - [X] Delay Stop action (for avoiding setting tracks to stop if it was quiet for too long)
 - [X] Revert to previous still running track on track stop of last running track
 - [X] Web-Page for embedding in OBS or showing on a tablet for your guests
+- [X] Automatic Setup of Mac systems for openssl
 - [ ] Check if "virgin" rekordbox can setup KUVO account over this script (for not needing a kuvo account in the first place)
