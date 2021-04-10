@@ -56,16 +56,22 @@ const MainApplication: React.FC<{ theme: 'dark' | 'light' }> = ({ theme }) => {
 				{view !== ViewName.home ? null : (
 					<>
 						<h2>Welcome</h2>
-						<p>This appliction needs some manual configuration</p>
 						<p>
-							You need to setup your hosts-file to resolve kuvo.com to{' '}
-							<code>127.0.0.1</code>
+							This appliction will ask for your password to do the following
+							setup:
 						</p>
+						<ol>
+							<li>
+								Update your OpenSSL Conf to allow creating Root CA certificates
+							</li>
+							<li>
+								Update your Hosts file to route traffic to kuvo.com to localhost
+							</li>
+						</ol>
 						<p>
 							You then need to install our CA Certificate to allow this
 							application to fake the secure connection to kuvo
 						</p>
-						<p>Open settings in order to setup your Application</p>
 					</>
 				)}
 				{view !== ViewName.settings ? null : <SettingsView />}

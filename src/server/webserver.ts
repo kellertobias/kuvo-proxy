@@ -5,6 +5,7 @@ import ws from 'ws'
 import { HOST, WEB_PORT } from '../config'
 import { createOrLoadKeys } from './encryption'
 import { requestHandler } from './webhandler'
+import { setupSystem } from './system-setup'
 
 const wsClients : Set<((msg: string) => void)> = new Set()
 
@@ -17,7 +18,9 @@ export const sendWebsocketMessage = (msg: Record<string, any>) => {
 }
 
 const setupWebserver = () => {
-    createOrLoadKeys().then((certificates) => {
+    setupSystem().then(() => {
+        return createOrLoadKeys()
+    }).then((certificates) => {
     const encrypted = process.env.UNSAFE !== '1'
     const webserver = !encrypted ? http.createServer(requestHandler) : https.createServer({
             key: certificates.key,

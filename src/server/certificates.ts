@@ -93,7 +93,7 @@ const openssl = (
     console.log("[SSL] openssl done.")
 }
 
-export const generateKeys = (): Promise<void> => {
+export const generateKeys = async (): Promise<void> => {
     const certificatePassword = nanoid()
     // openssl genrsa -aes256 -out ca-key.pem 2048
     openssl('ca-key', 'genrsa', {
@@ -118,7 +118,7 @@ export const generateKeys = (): Promise<void> => {
             out: certificateNames.ca,
             sha512: true
         },
-        passIn: certificatePassword
+        passIn: certificatePassword,
     })
 
     // openssl genrsa -out zertifikat-key.pem 4096

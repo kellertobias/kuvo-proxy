@@ -20,10 +20,17 @@ export const loadKeys = (): CertificateStore => {
 
 export const createOrLoadKeys = async (): Promise<CertificateStore> => {
     console.log("[SSL] SSL Setup Initiated")
-    const certExists = fs.existsSync(path.join(certFolder, certificateNames.key))
-    if(process.env.RENEW && certExists) {
+    let certExists = fs.existsSync(path.join(certFolder, certificateNames.key))
+    if(process.env.RENEW) {
         console.log("[SSL] Cleanup requested")
-        rimraf.sync(certFolder)
+        try {
+            rimraf.sync(certFolder)
+            certExists = false
+            console.log("[SSL] Cleanup Done")
+        } catch (error) {
+            console.error("[SSL] Cleanup Failed")
+            // Nothing, file does not exist   
+        }
     }
     if(!certExists) {
         console.log("[SSL] Creation Initiated")
