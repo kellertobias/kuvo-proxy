@@ -20,11 +20,12 @@ export const loadKeys = (): CertificateStore => {
 
 export const createOrLoadKeys = async (): Promise<CertificateStore> => {
     console.log("[SSL] SSL Setup Initiated")
-    if(process.env.RENEW && fs.existsSync(certFolder)) {
+    const certExists = fs.existsSync(path.join(certFolder, certificateNames.key))
+    if(process.env.RENEW && certExists) {
         console.log("[SSL] Cleanup requested")
         rimraf.sync(certFolder)
     }
-    if(!fs.existsSync(certFolder)) {
+    if(!certExists) {
         console.log("[SSL] Creation Initiated")
         fs.mkdirSync(certFolder)
         await generateKeys()
