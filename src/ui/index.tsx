@@ -24,13 +24,17 @@ const MainApplication: React.FC<{ theme: 'dark' | 'light' }> = ({ theme }) => {
 	};
 
 	useEffect(() => {
-		ipcRenderer
-			.invoke('settings/get')
-			.then((props: { callbackPath?: string }) => {
-				if (props.callbackPath) {
-					setView(ViewName.playing);
-				}
-			});
+		const fetchInterval = setInterval(() => {
+			fetch('https://kuvo.com/isup')
+				.then((response) => response.json())
+				.then((data) => {
+					console.log(data);
+					if (data.status == 'RUNNING') {
+						setView(ViewName.playing);
+					}
+					clearInterval(fetchInterval);
+				});
+		}, 500);
 	}, []);
 
 	const setViewPlaying = buildViewChanger(ViewName.playing);
@@ -71,6 +75,10 @@ const MainApplication: React.FC<{ theme: 'dark' | 'light' }> = ({ theme }) => {
 						<p>
 							You then need to install our CA Certificate to allow this
 							application to fake the secure connection to kuvo
+						</p>
+						<p>
+							If this screen does not go away automatically, this means that you
+							still need to do some configuration
 						</p>
 					</>
 				)}
