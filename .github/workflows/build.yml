@@ -1,56 +1,56 @@
-name: Build/release
+# name: Build/release
 
-on: push
+# on: push
 
-jobs:
-  release:
-    runs-on: ${{ matrix.os }}
+# jobs:
+#   release:
+#     runs-on: ${{ matrix.os }}
 
-    strategy:
-      matrix:
-        os: [macos-latest] #, windows-latest]
+#     strategy:
+#       matrix:
+#         os: [macos-latest] #, windows-latest]
 
-    steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v1
-      - name: Get Time
-        id: time
-        uses: nanzm/get-time-action@v1.1
-        with:
-          timeZone: 8
-          format: 'YYYY-MM-DD-HH-mm-ss'
-      - name: Install Node.js, NPM and Yarn
-        uses: actions/setup-node@v1
-        with:
-          node-version: 10
-      - run: npm ci
-      - run: npm run package
-      - run: chmod +x out/kuvo-proxy-darwin-x64/Contents/MacOS/kuvo-proxy
-      - uses: papeloto/action-zip@v1
-        with:
-          files: out/kuvo-proxy-darwin-x64/
-          dest: mac-os.zip
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-        with:
-          tag_name: ${{ steps.time.outputs.time }}
-          release_name: Release ${{ steps.time.outputs.time }}
-          body: |
-            Changes in this Release
-            - First Change
-            - Second Change
-          draft: false
-          prerelease: false
-      - name: Upload Release Asset
-        id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./mac-os.zip
-          asset_name: mac-os.zip
-          asset_content_type: application/zip
+#     steps:
+#       - name: Check out Git repository
+#         uses: actions/checkout@v1
+#       - name: Get Time
+#         id: time
+#         uses: nanzm/get-time-action@v1.1
+#         with:
+#           timeZone: 8
+#           format: 'YYYY-MM-DD-HH-mm-ss'
+#       - name: Install Node.js, NPM and Yarn
+#         uses: actions/setup-node@v1
+#         with:
+#           node-version: 10
+#       - run: npm ci
+#       - run: npm run package
+#       - run: chmod +x out/kuvo-proxy-darwin-x64/Contents/MacOS/kuvo-proxy
+#       - uses: papeloto/action-zip@v1
+#         with:
+#           files: out/kuvo-proxy-darwin-x64/
+#           dest: mac-os.zip
+#       - name: Create Release
+#         id: create_release
+#         uses: actions/create-release@v1
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+#         with:
+#           tag_name: ${{ steps.time.outputs.time }}
+#           release_name: Release ${{ steps.time.outputs.time }}
+#           body: |
+#             Changes in this Release
+#             - First Change
+#             - Second Change
+#           draft: false
+#           prerelease: false
+#       - name: Upload Release Asset
+#         id: upload-release-asset 
+#         uses: actions/upload-release-asset@v1
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         with:
+#           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+#           asset_path: ./mac-os.zip
+#           asset_name: mac-os.zip
+#           asset_content_type: application/zip
