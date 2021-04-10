@@ -1,7 +1,7 @@
 {
   "name": "kuvo-proxy",
   "productName": "kuvo-proxy",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "A Man-In-The-Middle Attack that blocks access to Kuvo and instead sends the currently playing track to a custom location or write it to file.",
   "main": ".webpack/main",
   "scripts": {
