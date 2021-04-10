@@ -141,6 +141,16 @@ const SettingsView: React.FC<{}> = () => {
 					placeholder="http://your-server:port/path OR /absolute/path OR ~/user/path"
 				/>
 			</div>
+			<div className="settings-entry">
+				<h3>Overlay URL</h3>
+				<p>
+					You can copy the URL below to use in OBS. This will render something
+					like:
+					<br />
+					<img src="/static/overlay.png" />
+				</p>
+				<input readOnly value="https://localhost/overlay" />
+			</div>
 		</div>
 	);
 };
