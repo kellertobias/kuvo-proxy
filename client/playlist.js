@@ -11,6 +11,10 @@ function renderSong(song, style) {
 }
 
 setupClient('overlay', function(data, params) {
+    if(!Array.isArray(data) && JSON.stringify(data) == '{}') {
+        data = []
+    }
+
     var outer = document.getElementById('content')
     outer.innerHTML = "";
     outer.style.fontWeight
@@ -49,7 +53,15 @@ setupClient('overlay', function(data, params) {
 
     prevTracksSection.hidden = true
 
-    data.forEach((song, index) => {
+    if((data || []).length == 0) {
+        currentTrack.append(
+            createNode('div', 'track', {style: currentStyle, nodes: [
+                createNode('div', 'paused', {text: '- Nothing Playing -'}),
+            ]})
+        )
+    }
+
+    (data || []).forEach((song, index) => {
         if(index == 0) {
             currentTrack.append(renderSong(song, currentStyle))
         } else {
