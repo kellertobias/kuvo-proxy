@@ -30,20 +30,20 @@ Add a web source to your OBS scene and add the path `https://localhost/overlay`.
 
 All colors are hex (without the pound sign)
 
-The following parameters exist:
+*The following parameters exist:*
 
-- headerback: background color of headers
-- headercolor: text color of headers
-- headerweight: font weight of the headers
-- currentback: background color of current playing track
-- currentcolor: text color of current playing track
-- prevback: background color of current playing track
-- prevcolor: text color of current playing track
-- weight: font weight of the tracks
-- current: Header Text for "Currently Playing"
-- prev: "Header Text for "Played Before"
+- `headerback`: background color of headers
+- `headercolor`: text color of headers
+- `headerweight`: font weight of the headers
+- `currentback`: background color of current playing track
+- `currentcolor`: text color of current playing track
+- `prevback`: background color of current playing track
+- `prevcolor`: text color of current playing track
+- `weight`: font weight of the tracks
+- `current`: Header Text for "Currently Playing"
+- `prev`: "Header Text for "Played Before"
 
-if you want to write custom css, here's the structure:
+*if you want to write custom css, here's the DOM structure:*
 
 - `#content`
   - `.current-track`
@@ -61,6 +61,8 @@ if you want to write custom css, here's the structure:
         - `.title`
         - `.artist`
       - ...
+
+### Fixing connection issues from OBS
 
 If you cannot connect make sure that you have installed the root certificate on the computer running OBS and running the application on the same computer than OBS.
 If you want to run the application on another computer than you run OBS, you need to add the `ip.of.kuvo.computer   kuvo.com` to the `/etc/hosts` file of the computer running OBS.
