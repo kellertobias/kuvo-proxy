@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ipcRenderer } from 'electron';
 
-import { HOST, WEB_PORT } from '../config';
+import { HOST } from '../config';
 import { CertificateStore } from '../types/certificate';
 
 import download from './helpers/download';
@@ -149,7 +149,7 @@ const SettingsView: React.FC<{}> = () => {
 					<br />
 					<img src="/static/overlay.png" />
 				</p>
-				<input readOnly value="https://localhost/overlay" />
+				<input readOnly value="http://localhost/overlay" />
 			</div>
 		</div>
 	);

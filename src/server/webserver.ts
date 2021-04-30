@@ -2,7 +2,7 @@ import http from 'http'
 import https from 'https'
 import ws from 'ws'
 
-import { HOST, WEB_PORT } from '../config'
+import { HOST, HTTPS_PORT, HTTP_PORT } from '../config'
 import { createOrLoadKeys } from './encryption'
 import { requestHandler } from './webhandler'
 import { setupSystem } from './system-setup'
@@ -21,15 +21,19 @@ const setupWebserver = () => {
     setupSystem().then(() => {
         return createOrLoadKeys()
     }).then((certificates) => {
-    const encrypted = process.env.UNSAFE !== '1'
-    const webserver = !encrypted ? http.createServer(requestHandler) : https.createServer({
+    
+        const webserver = http.createServer(requestHandler);
+        
+        const secureWebserver = https.createServer({
             key: certificates.key,
             cert: certificates.cert,
-
         }, requestHandler)
-    
-        webserver.listen(WEB_PORT, () => {
-            console.log(`WebServer is running on ${encrypted ? 'https' : 'http'}://${HOST}:${WEB_PORT}`);
+        
+        secureWebserver.listen(HTTPS_PORT, () => {
+            console.log(`SecureWebServer is running on https://${HOST}:${HTTPS_PORT}`);
+        })
+        webserver.listen(HTTP_PORT, () => {
+            console.log(`WebServer is running on http://${HOST}:${HTTP_PORT}`);
         })
 
         const wsServer = new ws.Server({noServer: true});
@@ -46,6 +50,11 @@ const setupWebserver = () => {
             socket.send(lastMessage)
         })
 
+        secureWebserver.on('upgrade', (request, socket, head) => {
+            wsServer.handleUpgrade(request, socket, head, (s) => {
+                wsServer.emit('connection', s, request)
+            })
+        })
         webserver.on('upgrade', (request, socket, head) => {
             wsServer.handleUpgrade(request, socket, head, (s) => {
                 wsServer.emit('connection', s, request)

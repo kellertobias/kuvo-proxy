@@ -1,6 +1,6 @@
 export const HOST = "localhost";
-export const WEB_PORT = 443;
-export const PROXY_PORT = 8080;
+export const HTTP_PORT = 80;
+export const HTTPS_PORT = 443;
 export const PROXY_DOMAINS = [
     'kuvo.com',
     '*.kuvo.com',
